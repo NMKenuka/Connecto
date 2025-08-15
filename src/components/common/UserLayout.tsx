@@ -25,6 +25,7 @@ import {
   Menu as MenuIcon,
   AccountCircle,
   Notifications as NotificationsIcon,
+  Forum as ForumIcon,
 } from "@mui/icons-material";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
@@ -66,6 +67,7 @@ const UserLayout: React.FC<UserLayoutProps> = ({ children }) => {
   const menuItems = [
     { text: "Home", icon: <HomeIcon />, path: "/dashboard" },
     { text: "My Bookings", icon: <BookingsIcon />, path: "/my-bookings" },
+    { text: "Forum", icon: <ForumIcon />, path: "/dashboard/forum" },
     { text: "Profile Settings", icon: <SettingsIcon />, path: "/profile" },
   ];
 

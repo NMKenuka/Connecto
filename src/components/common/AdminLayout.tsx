@@ -24,6 +24,7 @@ import {
   Logout as LogoutIcon,
   Menu as MenuIcon,
   AccountCircle,
+  Insights as AnalyticsIcon,
 } from "@mui/icons-material";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
@@ -49,10 +50,11 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
       path: "/admin/bookings",
     },
     { text: "Post Notices", icon: <NoticesIcon />, path: "/admin/notices" },
+    { text: "Analytics", icon: <AnalyticsIcon />, path: "/admin/analytics" },
     {
       text: "Profile Settings",
       icon: <SettingsIcon />,
-      path: "/admin/profile",
+      path: "/profile",
     },
   ];
 
