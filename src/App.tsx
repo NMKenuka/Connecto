@@ -20,6 +20,8 @@ import UserDashboard from "./components/user/UserDashboard";
 import BookingDetails from "./components/user/BookingDetails";
 import MyBookings from "./components/user/MyBookings";
 import ProfileSettings from "./components/common/ProfileSettings";
+import Forum from "./components/user/Forum";
+import AnalyticsPage from "./components/admin/AnalyticsPage";
 
 function App() {
   return (
@@ -59,6 +61,14 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
+                <Route
+                  path="/admin/analytics"
+                  element={
+                    <ProtectedRoute requiredRole="admin">
+                      <AnalyticsPage />
+                    </ProtectedRoute>
+                  }
+                />
 
                 {/* User Routes */}
                 <Route
@@ -85,11 +95,20 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
+
                 <Route
                   path="/profile"
                   element={
-                    <ProtectedRoute requiredRole="user">
+                    <ProtectedRoute>
                       <ProfileSettings />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/dashboard/forum"
+                  element={
+                    <ProtectedRoute requiredRole="user">
+                      <Forum />
                     </ProtectedRoute>
                   }
                 />
