@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import Logo from "../../assets/Connecto.png";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -86,19 +87,25 @@ const Login: React.FC = () => {
       >
         <Paper elevation={3} sx={{ width: "100%", borderRadius: 3 }}>
           <Box sx={{ textAlign: "center", pt: 4, pb: 2 }}>
-            <Typography
-              component="h1"
-              variant="h4"
-              sx={{ fontWeight: 700, color: "primary.main" }}
-            >
-              Connecto
-            </Typography>
+            <Box
+              component="img"
+              src={Logo}
+              alt="Connecto Logo"
+              sx={{
+                width: 150,
+                height: "auto",
+                mb: 2,
+                display: "block",
+                margin: "0 auto",
+              }}
+            />
+
             <Typography
               variant="subtitle1"
               color="text.secondary"
               sx={{ mt: 1 }}
             >
-              Connect Citizen to Government
+              Connecting Citizens, Simplifying Services.
             </Typography>
           </Box>
 
@@ -118,25 +125,6 @@ const Login: React.FC = () => {
           </Tabs>
 
           <TabPanel value={tabValue} index={0}>
-            <Card
-              variant="outlined"
-              sx={{ backgroundColor: "secondary.main", mb: 3 }}
-            >
-              <CardContent>
-                <Typography
-                  variant="body2"
-                  color="primary.main"
-                  sx={{ fontWeight: 500 }}
-                >
-                  <strong>Demo Credentials:</strong>
-                  <br />
-                  Email: citizen@demo.com
-                  <br />
-                  Password: password123
-                </Typography>
-              </CardContent>
-            </Card>
-
             <Box component="form" onSubmit={handleSubmit}>
               <TextField
                 margin="normal"
@@ -194,25 +182,6 @@ const Login: React.FC = () => {
           </TabPanel>
 
           <TabPanel value={tabValue} index={1}>
-            <Card
-              variant="outlined"
-              sx={{ backgroundColor: "secondary.main", mb: 3 }}
-            >
-              <CardContent>
-                <Typography
-                  variant="body2"
-                  color="primary.main"
-                  sx={{ fontWeight: 500 }}
-                >
-                  <strong>Demo Credentials:</strong>
-                  <br />
-                  Email: admin@gov.lk
-                  <br />
-                  Password: admin123
-                </Typography>
-              </CardContent>
-            </Card>
-
             <Box component="form" onSubmit={handleSubmit}>
               <TextField
                 margin="normal"

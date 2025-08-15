@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Container,
   Paper,
@@ -11,13 +11,13 @@ import {
   Tab,
   Tabs,
   Grid,
-} from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { useAuth } from '../../context/AuthContext';
-import dayjs from 'dayjs';
+} from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { useAuth } from "../../context/AuthContext";
+import dayjs from "dayjs";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -43,134 +43,162 @@ function TabPanel(props: TabPanelProps) {
 
 const Register: React.FC = () => {
   const [tabValue, setTabValue] = useState(0);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const { register } = useAuth();
   const navigate = useNavigate();
 
   // Citizen form state
   const [citizenData, setCitizenData] = useState({
-    nic: '',
-    email: '',
-    fullName: '',
-    address: '',
+    nic: "",
+    email: "",
+    fullName: "",
+    address: "",
     dateOfBirth: null as dayjs.Dayjs | null,
-    password: '',
-    confirmPassword: '',
+    password: "",
+    confirmPassword: "",
   });
 
   // Admin form state
   const [adminData, setAdminData] = useState({
-    departmentEmail: '',
-    departmentId: '',
-    departmentName: '',
-    password: '',
-    confirmPassword: '',
+    departmentEmail: "",
+    departmentId: "",
+    departmentName: "",
+    password: "",
+    confirmPassword: "",
   });
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
-    setError('');
+    setError("");
   };
 
   const validateCitizenForm = () => {
-    const { nic, email, fullName, address, dateOfBirth, password, confirmPassword } = citizenData;
-    
-    if (!nic || !email || !fullName || !address || !dateOfBirth || !password || !confirmPassword) {
-      setError('Please fill in all fields');
+    const {
+      nic,
+      email,
+      fullName,
+      address,
+      dateOfBirth,
+      password,
+      confirmPassword,
+    } = citizenData;
+
+    if (
+      !nic ||
+      !email ||
+      !fullName ||
+      !address ||
+      !dateOfBirth ||
+      !password ||
+      !confirmPassword
+    ) {
+      setError("Please fill in all fields");
       return false;
     }
-    
+
     if (password !== confirmPassword) {
-      setError('Passwords do not match');
+      setError("Passwords do not match");
       return false;
     }
-    
+
     if (password.length < 6) {
-      setError('Password must be at least 6 characters long');
+      setError("Password must be at least 6 characters long");
       return false;
     }
-    
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      setError('Please enter a valid email address');
+      setError("Please enter a valid email address");
       return false;
     }
-    
+
     return true;
   };
 
   const validateAdminForm = () => {
-    const { departmentEmail, departmentId, departmentName, password, confirmPassword } = adminData;
-    
-    if (!departmentEmail || !departmentId || !departmentName || !password || !confirmPassword) {
-      setError('Please fill in all fields');
+    const {
+      departmentEmail,
+      departmentId,
+      departmentName,
+      password,
+      confirmPassword,
+    } = adminData;
+
+    if (
+      !departmentEmail ||
+      !departmentId ||
+      !departmentName ||
+      !password ||
+      !confirmPassword
+    ) {
+      setError("Please fill in all fields");
       return false;
     }
-    
+
     if (password !== confirmPassword) {
-      setError('Passwords do not match');
+      setError("Passwords do not match");
       return false;
     }
-    
+
     if (password.length < 6) {
-      setError('Password must be at least 6 characters long');
+      setError("Password must be at least 6 characters long");
       return false;
     }
-    
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(departmentEmail)) {
-      setError('Please enter a valid department email address');
+      setError("Please enter a valid department email address");
       return false;
     }
-    
+
     return true;
   };
 
   const handleCitizenSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
-    
+    setError("");
+
     if (!validateCitizenForm()) return;
-    
+
     setLoading(true);
     const userData = {
       nic: citizenData.nic,
       email: citizenData.email,
       fullName: citizenData.fullName,
       address: citizenData.address,
-      dateOfBirth: citizenData.dateOfBirth?.format('YYYY-MM-DD'),
+      dateOfBirth: citizenData.dateOfBirth?.format("YYYY-MM-DD"),
     };
-    
-    const success = await register(userData, 'user');
-    
+
+    const success = await register(userData, "user");
+
     if (success) {
-      navigate('/dashboard');
+      navigate("/dashboard");
     } else {
-      setError('Registration failed. Please try again.');
+      setError("Registration failed. Please try again.");
     }
     setLoading(false);
   };
 
   const handleAdminSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
-    
+    setError("");
+
     if (!validateAdminForm()) return;
-    
+
     setLoading(true);
     const userData = {
       email: adminData.departmentEmail,
       departmentId: adminData.departmentId,
       fullName: adminData.departmentName,
     };
-    
-    const success = await register(userData, 'admin');
-    
+
+    const success = await register(userData, "admin");
+
     if (success) {
-      navigate('/admin/dashboard');
+      navigate("/admin/dashboard");
     } else {
-      setError('Registration failed. Please try again.');
+      setError("Registration failed. Please try again.");
     }
     setLoading(false);
   };
@@ -180,17 +208,25 @@ const Register: React.FC = () => {
       <Container component="main" maxWidth="md" sx={{ py: 4 }}>
         <Box
           sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
-          <Paper elevation={3} sx={{ width: '100%', borderRadius: 3 }}>
-            <Box sx={{ textAlign: 'center', pt: 4, pb: 2 }}>
-              <Typography component="h1" variant="h4" sx={{ fontWeight: 700, color: 'primary.main' }}>
+          <Paper elevation={3} sx={{ width: "100%", borderRadius: 3 }}>
+            <Box sx={{ textAlign: "center", pt: 4, pb: 2 }}>
+              <Typography
+                component="h1"
+                variant="h4"
+                sx={{ fontWeight: 700, color: "primary.main" }}
+              >
                 Register for Connecto
               </Typography>
-              <Typography variant="subtitle1" color="text.secondary" sx={{ mt: 1 }}>
+              <Typography
+                variant="subtitle1"
+                color="text.secondary"
+                sx={{ mt: 1 }}
+              >
                 Join the Government Digital Services Platform
               </Typography>
             </Box>
@@ -200,9 +236,9 @@ const Register: React.FC = () => {
               onChange={handleTabChange}
               centered
               sx={{
-                '& .MuiTab-root': {
+                "& .MuiTab-root": {
                   fontWeight: 600,
-                  fontSize: '1rem',
+                  fontSize: "1rem",
                 },
               }}
             >
@@ -219,7 +255,9 @@ const Register: React.FC = () => {
                       fullWidth
                       label="NIC Number"
                       value={citizenData.nic}
-                      onChange={(e) => setCitizenData({ ...citizenData, nic: e.target.value })}
+                      onChange={(e) =>
+                        setCitizenData({ ...citizenData, nic: e.target.value })
+                      }
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
@@ -229,7 +267,12 @@ const Register: React.FC = () => {
                       label="Email Address"
                       type="email"
                       value={citizenData.email}
-                      onChange={(e) => setCitizenData({ ...citizenData, email: e.target.value })}
+                      onChange={(e) =>
+                        setCitizenData({
+                          ...citizenData,
+                          email: e.target.value,
+                        })
+                      }
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -238,7 +281,12 @@ const Register: React.FC = () => {
                       fullWidth
                       label="Full Name"
                       value={citizenData.fullName}
-                      onChange={(e) => setCitizenData({ ...citizenData, fullName: e.target.value })}
+                      onChange={(e) =>
+                        setCitizenData({
+                          ...citizenData,
+                          fullName: e.target.value,
+                        })
+                      }
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -249,15 +297,25 @@ const Register: React.FC = () => {
                       multiline
                       rows={3}
                       value={citizenData.address}
-                      onChange={(e) => setCitizenData({ ...citizenData, address: e.target.value })}
+                      onChange={(e) =>
+                        setCitizenData({
+                          ...citizenData,
+                          address: e.target.value,
+                        })
+                      }
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <DatePicker
                       label="Date of Birth"
                       value={citizenData.dateOfBirth}
-                      onChange={(newValue) => setCitizenData({ ...citizenData, dateOfBirth: newValue })}
-                      sx={{ width: '100%' }}
+                      onChange={(newValue) =>
+                        setCitizenData({
+                          ...citizenData,
+                          dateOfBirth: newValue,
+                        })
+                      }
+                      sx={{ width: "100%" }}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
@@ -276,7 +334,12 @@ const Register: React.FC = () => {
                       label="Password"
                       type="password"
                       value={citizenData.password}
-                      onChange={(e) => setCitizenData({ ...citizenData, password: e.target.value })}
+                      onChange={(e) =>
+                        setCitizenData({
+                          ...citizenData,
+                          password: e.target.value,
+                        })
+                      }
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
@@ -286,17 +349,22 @@ const Register: React.FC = () => {
                       label="Confirm Password"
                       type="password"
                       value={citizenData.confirmPassword}
-                      onChange={(e) => setCitizenData({ ...citizenData, confirmPassword: e.target.value })}
+                      onChange={(e) =>
+                        setCitizenData({
+                          ...citizenData,
+                          confirmPassword: e.target.value,
+                        })
+                      }
                     />
                   </Grid>
                 </Grid>
-                
+
                 {error && (
                   <Alert severity="error" sx={{ mt: 2 }}>
                     {error}
                   </Alert>
                 )}
-                
+
                 <Button
                   type="submit"
                   fullWidth
@@ -304,12 +372,20 @@ const Register: React.FC = () => {
                   disabled={loading}
                   sx={{ mt: 3, mb: 2, py: 1.5 }}
                 >
-                  {loading ? <CircularProgress size={24} /> : 'Register as Citizen'}
+                  {loading ? (
+                    <CircularProgress size={24} />
+                  ) : (
+                    "Register as Citizen"
+                  )}
                 </Button>
-                
-                <Box sx={{ textAlign: 'center' }}>
-                  <Link to="/login" style={{ textDecoration: 'none' }}>
-                    <Typography variant="body2" color="primary.main" sx={{ fontWeight: 500 }}>
+
+                <Box sx={{ textAlign: "center" }}>
+                  <Link to="/login" style={{ textDecoration: "none" }}>
+                    <Typography
+                      variant="body2"
+                      color="primary.main"
+                      sx={{ fontWeight: 500 }}
+                    >
                       Already have an account? Sign in here
                     </Typography>
                   </Link>
@@ -327,7 +403,12 @@ const Register: React.FC = () => {
                       label="Department Email"
                       type="email"
                       value={adminData.departmentEmail}
-                      onChange={(e) => setAdminData({ ...adminData, departmentEmail: e.target.value })}
+                      onChange={(e) =>
+                        setAdminData({
+                          ...adminData,
+                          departmentEmail: e.target.value,
+                        })
+                      }
                       helperText="Official government department email address"
                     />
                   </Grid>
@@ -337,7 +418,12 @@ const Register: React.FC = () => {
                       fullWidth
                       label="Government Department ID"
                       value={adminData.departmentId}
-                      onChange={(e) => setAdminData({ ...adminData, departmentId: e.target.value })}
+                      onChange={(e) =>
+                        setAdminData({
+                          ...adminData,
+                          departmentId: e.target.value,
+                        })
+                      }
                       helperText="e.g., DEPT001, MOH-COL"
                     />
                   </Grid>
@@ -347,7 +433,12 @@ const Register: React.FC = () => {
                       fullWidth
                       label="Department Name"
                       value={adminData.departmentName}
-                      onChange={(e) => setAdminData({ ...adminData, departmentName: e.target.value })}
+                      onChange={(e) =>
+                        setAdminData({
+                          ...adminData,
+                          departmentName: e.target.value,
+                        })
+                      }
                       helperText="e.g., Ministry of Health"
                     />
                   </Grid>
@@ -358,7 +449,9 @@ const Register: React.FC = () => {
                       label="Password"
                       type="password"
                       value={adminData.password}
-                      onChange={(e) => setAdminData({ ...adminData, password: e.target.value })}
+                      onChange={(e) =>
+                        setAdminData({ ...adminData, password: e.target.value })
+                      }
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
@@ -368,17 +461,22 @@ const Register: React.FC = () => {
                       label="Confirm Password"
                       type="password"
                       value={adminData.confirmPassword}
-                      onChange={(e) => setAdminData({ ...adminData, confirmPassword: e.target.value })}
+                      onChange={(e) =>
+                        setAdminData({
+                          ...adminData,
+                          confirmPassword: e.target.value,
+                        })
+                      }
                     />
                   </Grid>
                 </Grid>
-                
+
                 {error && (
                   <Alert severity="error" sx={{ mt: 2 }}>
                     {error}
                   </Alert>
                 )}
-                
+
                 <Button
                   type="submit"
                   fullWidth
@@ -386,12 +484,20 @@ const Register: React.FC = () => {
                   disabled={loading}
                   sx={{ mt: 3, mb: 2, py: 1.5 }}
                 >
-                  {loading ? <CircularProgress size={24} /> : 'Register Department'}
+                  {loading ? (
+                    <CircularProgress size={24} />
+                  ) : (
+                    "Register Department"
+                  )}
                 </Button>
-                
-                <Box sx={{ textAlign: 'center' }}>
-                  <Link to="/login" style={{ textDecoration: 'none' }}>
-                    <Typography variant="body2" color="primary.main" sx={{ fontWeight: 500 }}>
+
+                <Box sx={{ textAlign: "center" }}>
+                  <Link to="/login" style={{ textDecoration: "none" }}>
+                    <Typography
+                      variant="body2"
+                      color="primary.main"
+                      sx={{ fontWeight: 500 }}
+                    >
                       Already have an account? Sign in here
                     </Typography>
                   </Link>
