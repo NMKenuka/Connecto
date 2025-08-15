@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useState } from "react";
 import {
   Box,
   Drawer,
@@ -15,7 +15,7 @@ import {
   Avatar,
   Menu,
   MenuItem,
-} from '@mui/material';
+} from "@mui/material";
 import {
   Dashboard as DashboardIcon,
   CalendarMonth as BookingsIcon,
@@ -24,9 +24,9 @@ import {
   Logout as LogoutIcon,
   Menu as MenuIcon,
   AccountCircle,
-} from '@mui/icons-material';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+} from "@mui/icons-material";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 const drawerWidth = 280;
 
@@ -42,10 +42,18 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const { user, logout } = useAuth();
 
   const menuItems = [
-    { text: 'Dashboard', icon: <DashboardIcon />, path: '/admin/dashboard' },
-    { text: 'Manage Bookings', icon: <BookingsIcon />, path: '/admin/bookings' },
-    { text: 'Post Notices', icon: <NoticesIcon />, path: '/admin/notices' },
-    { text: 'Profile Settings', icon: <SettingsIcon />, path: '/admin/profile' },
+    { text: "Dashboard", icon: <DashboardIcon />, path: "/admin/dashboard" },
+    {
+      text: "Manage Bookings",
+      icon: <BookingsIcon />,
+      path: "/admin/bookings",
+    },
+    { text: "Post Notices", icon: <NoticesIcon />, path: "/admin/notices" },
+    {
+      text: "Profile Settings",
+      icon: <SettingsIcon />,
+      path: "/admin/profile",
+    },
   ];
 
   const handleDrawerToggle = () => {
@@ -62,16 +70,22 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate("/login");
     handleProfileMenuClose();
   };
 
   const drawer = (
     <div>
-      <Toolbar sx={{ backgroundColor: 'primary.main', color: 'white' }}>
-        <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 700 }}>
-          Connecto Admin
-        </Typography>
+      <Toolbar
+        sx={{
+          backgroundColor: "white",
+          color: "primary.main",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <img src="src/assets/Connecto.png" alt="Connecto Logo" width="100" />
       </Toolbar>
       <Divider />
       <List sx={{ px: 2, py: 1 }}>
@@ -82,22 +96,22 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
               selected={location.pathname === item.path}
               sx={{
                 borderRadius: 2,
-                '&.Mui-selected': {
-                  backgroundColor: 'primary.main',
-                  color: 'white',
-                  '& .MuiListItemIcon-root': {
-                    color: 'white',
+                "&.Mui-selected": {
+                  backgroundColor: "primary.main",
+                  color: "white",
+                  "& .MuiListItemIcon-root": {
+                    color: "white",
                   },
-                  '&:hover': {
-                    backgroundColor: 'primary.dark',
+                  "&:hover": {
+                    backgroundColor: "primary.dark",
                   },
                 },
-                '&:hover': {
-                  backgroundColor: 'secondary.main',
+                "&:hover": {
+                  backgroundColor: "secondary.main",
                 },
               }}
             >
-              <ListItemIcon sx={{ color: 'primary.main' }}>
+              <ListItemIcon sx={{ color: "primary.main" }}>
                 {item.icon}
               </ListItemIcon>
               <ListItemText primary={item.text} />
@@ -109,15 +123,15 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   );
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: "flex" }}>
       <AppBar
         position="fixed"
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
-          backgroundColor: 'white',
-          color: 'text.primary',
-          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+          backgroundColor: "white",
+          color: "text.primary",
+          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
         }}
       >
         <Toolbar>
@@ -126,11 +140,16 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
+            sx={{ mr: 2, display: { sm: "none" } }}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, color: 'primary.main' }}>
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ flexGrow: 1, color: "primary.main" }}
+          >
             Government Administration Panel
           </Typography>
           <IconButton
@@ -141,7 +160,9 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
             onClick={handleProfileMenuOpen}
             color="inherit"
           >
-            <Avatar sx={{ width: 32, height: 32, backgroundColor: 'primary.main' }}>
+            <Avatar
+              sx={{ width: 32, height: 32, backgroundColor: "primary.main" }}
+            >
               <AccountCircle />
             </Avatar>
           </IconButton>
@@ -149,18 +170,23 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
             id="menu-appbar"
             anchorEl={anchorEl}
             anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
+              vertical: "top",
+              horizontal: "right",
             }}
             keepMounted
             transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
+              vertical: "top",
+              horizontal: "right",
             }}
             open={Boolean(anchorEl)}
             onClose={handleProfileMenuClose}
           >
-            <MenuItem onClick={() => { navigate('/admin/profile'); handleProfileMenuClose(); }}>
+            <MenuItem
+              onClick={() => {
+                navigate("/admin/profile");
+                handleProfileMenuClose();
+              }}
+            >
               <ListItemIcon>
                 <SettingsIcon fontSize="small" />
               </ListItemIcon>
@@ -188,8 +214,11 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
             keepMounted: true,
           }}
           sx={{
-            display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            display: { xs: "block", sm: "none" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+            },
           }}
         >
           {drawer}
@@ -197,8 +226,11 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
         <Drawer
           variant="permanent"
           sx={{
-            display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            display: { xs: "none", sm: "block" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+            },
           }}
           open
         >
@@ -211,8 +243,8 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
           flexGrow: 1,
           p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
-          backgroundColor: 'background.default',
-          minHeight: '100vh',
+          backgroundColor: "background.default",
+          minHeight: "100vh",
         }}
       >
         <Toolbar />
